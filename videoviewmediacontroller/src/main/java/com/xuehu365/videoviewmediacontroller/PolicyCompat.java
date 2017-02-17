@@ -1,20 +1,19 @@
 package com.xuehu365.videoviewmediacontroller;
 
+import android.content.Context;
+import android.view.Window;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
-import android.content.Context;
-import android.os.Build;
-import android.view.Window;
-
 public class PolicyCompat {
-	/*
-	 * Private constants
-	 */
-    private static final String PHONE_WINDOW_CLASS_NAME   = "com.android.internal.policy.PhoneWindow";
+    /*
+     * Private constants
+     */
+    private static final String PHONE_WINDOW_CLASS_NAME = "com.android.internal.policy.PhoneWindow";
     private static final String POLICY_MANAGER_CLASS_NAME = "com.android.internal.policy.PolicyManager";
 
-    
+
     private PolicyCompat() {
     }
 
@@ -31,12 +30,10 @@ public class PolicyCompat {
             Constructor c = cls.getConstructor(Context.class);
 
             /* Create instance */
-            return (Window)c.newInstance(context);
-        }
-        catch (ClassNotFoundException e) {
+            return (Window) c.newInstance(context);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(PHONE_WINDOW_CLASS_NAME + " could not be loaded", e);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException(PHONE_WINDOW_CLASS_NAME + " class could not be instantiated", e);
         }
     }
@@ -50,23 +47,22 @@ public class PolicyCompat {
             Method m = cls.getMethod("makeNewWindow", Context.class);
 
 	    	/* Invoke method */
-            return (Window)m.invoke(null, context);
-        }
-        catch (ClassNotFoundException e) {
+            return (Window) m.invoke(null, context);
+        } catch (ClassNotFoundException e) {
             throw new RuntimeException(POLICY_MANAGER_CLASS_NAME + " could not be loaded", e);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException(POLICY_MANAGER_CLASS_NAME + ".makeNewWindow could not be invoked", e);
         }
     }
-    
+
     /*
      * Public methods
      */
     public static Window createWindow(Context context) {
-        if (false)
+        try {
             return createPhoneWindow(context);
-        else
+        } catch (Exception e) {
             return makeNewWindow(context);
+        }
     }
 }
