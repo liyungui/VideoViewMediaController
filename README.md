@@ -1,4 +1,4 @@
-# 自定义VideoView MediaController 半屏全屏播放 #
+# [自定义VideoView MediaController 半屏全屏播放](http://blog.csdn.net/daitu_liang/article/details/51312523) #
 
 使用系统vedioview，底部的MediaController布局有点不好看，尤其是进度条，不能实现办半屏与全屏的切换
 
